@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>SPIRA - AI Стилист</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+</head>
+<body>
+    <!-- Splash Screen -->
+    <div class="splash-screen" id="splashScreen">
+        <div class="splash-logo">
+            <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#F5D97A"/>
+                        <stop offset="50%" style="stop-color:#CFAF4A"/>
+                        <stop offset="100%" style="stop-color:#8C6A1F"/>
+                    </linearGradient>
+                </defs>
+                <text x="50" y="58" text-anchor="middle" font-family="Playfair Display, serif" font-size="24" font-weight="600" fill="url(#goldGrad)" letter-spacing="0.3em">SPIRA</text>
+                <circle cx="50" cy="75" r="3" fill="url(#goldGrad)" opacity="0.6"/>
+            </svg>
+        </div>
+    </div>
+
+    <!-- Watermark -->
+    <div class="watermark">SPIRA</div>
+
+    <div class="app-container">
+        <!-- Основной контент -->
+        <main class="main-content">
+            
+            <!-- Секция профиля -->
+            <section id="profile" class="section active">
+                <div class="section-header">
+                    <h2>Создайте профиль</h2>
+                    <p>Расскажите о себе для персональных рекомендаций</p>
+                </div>
+                <div class="profile-form">
+                    <div class="form-group">
+                        <label>Ваше имя</label>
+                        <input type="text" id="userName" placeholder="Как к вам обращаться?">
+                    </div>
+                    <div class="form-group">
+                        <label>Бюджет на одежду в месяц</label>
+                        <input type="number" id="monthlyBudget" placeholder="50 000" min="0">
+                        <div class="budget-levels">
+                            <span class="budget-tag budget-low">до 30К</span>
+                            <span class="budget-tag budget-mid">30-80К</span>
+                            <span class="budget-tag budget-high">от 80К</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Любимые цвета</label>
+                        <div class="color-picker" id="colorPicker">
+                            <div class="color-option" data-color="#000000" style="background:#000000" title="Черный"></div>
+                            <div class="color-option" data-color="#FFFFFF" style="background:#FFFFFF;border:1px solid #333" title="Белый"></div>
+                            <div class="color-option" data-color="#808080" style="background:#808080" title="Серый"></div>
+                            <div class="color-option" data-color="#000080" style="background:#000080" title="Синий"></div>
+                            <div class="color-option" data-color="#800020" style="background:#800020" title="Бордовый"></div>
+                            <div class="color-option" data-color="#006400" style="background:#006400" title="Зеленый"></div>
+                            <div class="color-option" data-color="#F5F5DC" style="background:#F5F5DC" title="Бежевый"></div>
+                            <div class="color-option" data-color="#D4AF37" style="background:#D4AF37" title="Золотой"></div>
+                        </div>
+                    </div>
+                    <button class="btn-primary" id="saveProfile">Сохранить профиль</button>
+                </div>
+            </section>
+
+            <!-- Секция гардероба -->
+            <section id="wardrobe" class="section">
+                <div class="section-header">
+                    <h2>Мой гардероб</h2>
+                    <p>Добавьте ваши вещи</p>
+                </div>
+                <div class="wardrobe-actions">
+                    <div class="upload-zone" id="uploadZone">
+                        <input type="file" id="wardrobeUpload" accept="image/*" multiple hidden>
+                        <div class="upload-content">
+                            <span class="upload-icon">📷</span>
+                            <p>Нажмите для загрузки фото</p>
+                        </div>
+                    </div>
+                    <div class="wardrobe-filters">
+                        <select id="categoryFilter">
+                            <option value="all">Все категории</option>
+                            <option value="top">Верх</option>
+                            <option value="bottom">Низ</option>
+                            <option value="dress">Платья</option>
+                            <option value="outerwear">Верхняя одежда</option>
+                            <option value="shoes">Обувь</option>
+                            <option value="accessories">Аксессуары</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="wardrobe-grid" id="wardrobeGrid">
+                    <div class="empty-state">
+                        <span>👗</span>
+                        <p>Гардероб пуст</p>
+                        <p>Загрузите фотографии вещей</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Секция стиля -->
+            <section id="styles" class="section">
+                <div class="section-header">
+                    <h2>Ваш стиль</h2>
+                    <p>Выберите близкий вам стиль</p>
+                </div>
+                <div class="style-cards" id="styleCards">
+                    <div class="style-card" data-style="classic">
+                        <img src="https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=300&h=350&fit=crop" alt="Классический">
+                        <div class="style-card-content">
+                            <h3>Классический</h3>
+                            <p>Элегантность и сдержанность</p>
+                        </div>
+                    </div>
+                    <div class="style-card" data-style="casual">
+                        <img src="https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?w=300&h=350&fit=crop" alt="Кэжуал">
+                        <div class="style-card-content">
+                            <h3>Кэжуал</h3>
+                            <p>Комфорт и практичность</p>
+                        </div>
+                    </div>
+                    <div class="style-card" data-style="romantic">
+                        <img src="https://images.unsplash.com/photo-1518611012118-696072aa579a?w=300&h=350&fit=crop" alt="Романтический">
+                        <div class="style-card-content">
+                            <h3>Романтический</h3>
+                            <p>Мягкость и женственность</p>
+                        </div>
+                    </div>
+                    <div class="style-card" data-style="sporty">
+                        <img src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=300&h=350&fit=crop" alt="Спортивный">
+                        <div class="style-card-content">
+                            <h3>Спортивный</h3>
+                            <p>Активность и динамика</p>
+                        </div>
+                    </div>
+                    <div class="style-card" data-style="minimalist">
+                        <img src="https://images.unsplash.com/photo-1434389677669-e08b4cac3105?w=300&h=350&fit=crop" alt="Минимализм">
+                        <div class="style-card-content">
+                            <h3>Минимализм</h3>
+                            <p>Простота и чистота</p>
+                        </div>
+                    </div>
+                    <div class="style-card" data-style="boho">
+                        <img src="https://images.unsplash.com/photo-1509631179647-0177331693ae?w=300&h=350&fit=crop" alt="Бохо">
+                        <div class="style-card-content">
+                            <h3>Бохо</h3>
+                            <p>Свобода и креативность</p>
+                        </div>
+                    </div>
+                </div>
+                <button class="btn-primary" id="saveStyle">Сохранить стиль</button>
+            </section>
+
+            <!-- Секция образов -->
+            <section id="outfits" class="section">
+                <div class="section-header">
+                    <h2>Ваши образы</h2>
+                    <p>AI-подбор на основе гардероба</p>
+                </div>
+                <div class="outfit-controls">
+                    <select id="occasionFilter">
+                        <option value="casual">Повседневный</option>
+                        <option value="business">Деловой</option>
+                        <option value="evening">Вечерний</option>
+                        <option value="sport">Спортивный</option>
+                    </select>
+                    <button class="btn-primary" id="generateOutfits" style="margin-top:1rem">Сгенерировать образы</button>
+                </div>
+                <div class="outfits-grid" id="outfitsGrid">
+                    <div class="empty-state">
+                        <span>✨</span>
+                        <p>Добавьте вещи в гардероб</p>
+                        <p>для генерации образов</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Секция Pinterest -->
+            <section id="pinterest" class="section">
+                <div class="section-header">
+                    <h2>Pinterest</h2>
+                    <p>Загрузите вдохновляющие образы</p>
+                </div>
+                <div class="pinterest-upload">
+                    <div class="upload-zone" id="pinterestUploadZone">
+                        <input type="file" id="pinterestUpload" accept="image/*" multiple hidden>
+                        <div class="upload-content">
+                            <span class="upload-icon">📌</span>
+                            <p>Загрузите изображения</p>
+                        </div>
+                    </div>
+                    <div class="pinterest-url">
+                        <input type="text" id="pinterestUrl" placeholder="Ссылка на доску Pinterest">
+                        <button class="btn-secondary" id="importPinterest" style="white-space:nowrap">Импорт</button>
+                    </div>
+                </div>
+                <div class="pinterest-analysis" id="pinterestAnalysis">
+                    <h3 style="font-family:'Playfair Display';font-size:1rem;margin-bottom:0.5rem">Анализ стиля</h3>
+                    <div class="analysis-results" id="analysisResults">
+                        <p style="color:var(--text-secondary);font-size:0.8rem">Загрузите минимум 3 изображения для анализа</p>
+                    </div>
+                </div>
+                <div class="pinterest-gallery" id="pinterestGallery"></div>
+            </section>
+
+            <!-- Секция товаров -->
+            <section id="shop" class="section">
+                <div class="section-header">
+                    <h2>Рекомендации</h2>
+                    <p>Товары под ваш стиль</p>
+                </div>
+                <div class="shop-filters">
+                    <div class="price-range">
+                        <input type="range" id="priceRange" min="1000" max="100000" value="50000">
+                        <span id="priceValue">до 50К</span>
+                    </div>
+                </div>
+                <div class="products-grid" id="productsGrid"></div>
+            </section>
+        </main>
+
+        <!-- Нижняя навигация -->
+        <nav class="bottom-nav">
+            <ul>
+                <li class="nav-item active" data-section="profile">
+                    <span class="icon">👤</span>
+                    <span>Профиль</span>
+                </li>
+                <li class="nav-item" data-section="styles">
+                    <span class="icon">✨</span>
+                    <span>Стиль</span>
+                </li>
+                <li class="nav-item" data-section="wardrobe">
+                    <span class="icon">👗</span>
+                    <span>Гардероб</span>
+                </li>
+                <li class="nav-item" data-section="shop">
+                    <span class="icon">🛍️</span>
+                    <span>Товары</span>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <!-- Модальное окно -->
+    <div class="modal" id="explanationModal">
+        <div class="modal-content">
+            <span class="modal-close">&times;</span>
+            <h3 id="modalTitle">Детали</h3>
+            <div id="modalBody"></div>
+        </div>
+    </div>
+
+    <script src="ai-engine.js"></script>
+    <script src="wardrobe.js"></script>
+    <script src="style-dna.js"></script>
+    <script src="pinterest.js"></script>
+    <script src="budget.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
